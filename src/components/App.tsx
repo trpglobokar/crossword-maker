@@ -3,13 +3,14 @@ import * as React from "react";
 
 import CrosswordGrid from "./CrosswordGrid";
 import { GridSquare } from "./CrosswordSquare";
+import GridSizeForm from "./GridSizeForm";
 
 const App: React.FunctionComponent = () => {
   const [tempGridSize, setTempGridSize] = React.useState(0);
   const [gridSize, setGridSize] = React.useState(0);
   const [grid, setGrid] = React.useState<GridSquare[]>([]);
 
-  const handleSubmit = (evt: any) => {
+  const handleGridSizeFormSubmit = (evt: any) => {
     evt.preventDefault();
 
     let newGrid: GridSquare[] = [];
@@ -27,7 +28,7 @@ const App: React.FunctionComponent = () => {
     setGridSize(tempGridSize);
   };
 
-  const handleToggleBlack = (
+  const handleToggleGridSquareBlack = (
     e: React.MouseEvent<HTMLInputElement>,
     toggledGridSquare: GridSquare
   ) => {
@@ -54,28 +55,21 @@ const App: React.FunctionComponent = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Grid to make</p>
-        <form onSubmit={handleSubmit}>
-          <label>
-            GridSize:
-            <input
-              type="text"
-              value={tempGridSize}
-              onChange={(e) => setTempGridSize(parseInt(e.target.value, 10))}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <CrosswordGrid
-          grid={grid}
-          gridSize={gridSize}
-          onToggleBlack={(
-            e: React.MouseEvent<HTMLInputElement>,
-            gridSquare: GridSquare
-          ) => handleToggleBlack(e, gridSquare)}
-        />
-      </header>
+      <h1>Crossword Maker</h1>
+      <GridSizeForm
+        tempGridSize={tempGridSize}
+        handleChange={(e) => setTempGridSize(parseInt(e.target.value, 10))}
+        handleSubmit={handleGridSizeFormSubmit}
+      />
+      <br />
+      <CrosswordGrid
+        grid={grid}
+        gridSize={gridSize}
+        onToggleBlack={(
+          e: React.MouseEvent<HTMLInputElement>,
+          gridSquare: GridSquare
+        ) => handleToggleGridSquareBlack(e, gridSquare)}
+      />
     </div>
   );
 };
