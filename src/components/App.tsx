@@ -1,6 +1,8 @@
 import "./App.css";
 import * as React from "react";
-import CrosswordSquare, { GridSquare } from "./CrosswordSquare";
+
+import CrosswordGrid from "./CrosswordGrid";
+import { GridSquare } from "./CrosswordSquare";
 
 const App: React.FunctionComponent = () => {
   const [tempGridSize, setTempGridSize] = React.useState(0);
@@ -50,22 +52,6 @@ const App: React.FunctionComponent = () => {
     setGrid(newGrid);
   };
 
-  const gridComponent =
-    gridSize > 0 ? (
-      <div style={{ display: "flex", flexWrap: "wrap", width: gridSize * 27 }}>
-        {grid.map((gridSquare) => (
-          <CrosswordSquare
-            gridSquare={gridSquare}
-            onToggleBlack={(e: React.MouseEvent<HTMLInputElement>) =>
-              handleToggleBlack(e, gridSquare)
-            }
-          />
-        ))}
-      </div>
-    ) : (
-      <></>
-    );
-
   return (
     <div className="App">
       <header className="App-header">
@@ -81,7 +67,14 @@ const App: React.FunctionComponent = () => {
           </label>
           <input type="submit" value="Submit" />
         </form>
-        {gridComponent}
+        <CrosswordGrid
+          grid={grid}
+          gridSize={gridSize}
+          onToggleBlack={(
+            e: React.MouseEvent<HTMLInputElement>,
+            gridSquare: GridSquare
+          ) => handleToggleBlack(e, gridSquare)}
+        />
       </header>
     </div>
   );
