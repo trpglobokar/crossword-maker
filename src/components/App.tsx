@@ -9,11 +9,15 @@ import {
 import CrosswordGrid from "./CrosswordGrid";
 import { GridSquare } from "./CrosswordSquare";
 import GridSizeForm from "./GridSizeForm";
+import GridPatternSelector from "./GridPatternSelector";
 
 const App: React.FunctionComponent = () => {
-  const [tempGridSize, setTempGridSize] = React.useState(0);
-  const [gridSize, setGridSize] = React.useState(0);
-  const [grid, setGrid] = React.useState<GridSquare[]>([]);
+  const [tempGridSize, setTempGridSize] = React.useState(15);
+  const [gridSize, setGridSize] = React.useState(15);
+  const [grid, setGrid] = React.useState<GridSquare[]>(
+    createNewCrosswordGrid(15)
+  );
+  const [gridPattern, setGridPattern] = React.useState("basic");
 
   const handleGridSizeFormSubmit = (evt: any) => {
     evt.preventDefault();
@@ -34,6 +38,7 @@ const App: React.FunctionComponent = () => {
     const newGrid = updateCrosswordGridWithToggledBlack(
       grid,
       gridSize,
+      gridPattern,
       toggledGridSquare
     );
 
@@ -56,6 +61,13 @@ const App: React.FunctionComponent = () => {
           e: React.MouseEvent<HTMLInputElement>,
           gridSquare: GridSquare
         ) => handleToggleGridSquareBlack(e, gridSquare)}
+      />
+      <br />
+      <GridPatternSelector
+        gridPattern={gridPattern}
+        onPatternTypeClick={(newGridPattern: string) =>
+          setGridPattern(newGridPattern)
+        }
       />
     </div>
   );
