@@ -4,6 +4,10 @@ import CrosswordSquare, { GridSquare } from "./CrosswordSquare";
 interface CrosswordGridProps {
   grid: GridSquare[];
   gridSize: number;
+  onSetBlack: (
+    e: React.MouseEvent<HTMLInputElement>,
+    gridSquare: GridSquare
+  ) => void;
   onToggleBlack: (
     e: React.MouseEvent<HTMLInputElement>,
     gridSquare: GridSquare
@@ -12,6 +16,7 @@ interface CrosswordGridProps {
 const CrosswordGrid: React.FunctionComponent<CrosswordGridProps> = ({
   grid,
   gridSize,
+  onSetBlack,
   onToggleBlack,
 }) => {
   if (!grid.length) {
@@ -23,7 +28,10 @@ const CrosswordGrid: React.FunctionComponent<CrosswordGridProps> = ({
       {grid.map((gridSquare) => (
         <CrosswordSquare
           gridSquare={gridSquare}
-          onToggleBlack={(e) => onToggleBlack(e, gridSquare)}
+          onToggleBlackMouseDown={(e) => {
+            onSetBlack(e, gridSquare);
+          }}
+          onToggleBlackMouseEnter={(e) => onToggleBlack(e, gridSquare)}
         />
       ))}
     </div>

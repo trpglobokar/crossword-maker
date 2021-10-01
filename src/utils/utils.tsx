@@ -19,7 +19,8 @@ export const updateCrosswordGridWithToggledBlack = (
   grid: GridSquare[],
   gridSize: number,
   gridPattern: string,
-  toggledGridSquare: GridSquare //CREATE EXTRA STATE = isTogglingBlack: boolean??
+  isTogglingGridBlack: boolean,
+  toggledGridSquare: GridSquare
 ) => {
   let newGrid = [...grid];
   let oppositeTile: GridSquare | undefined = undefined;
@@ -53,10 +54,9 @@ export const updateCrosswordGridWithToggledBlack = (
       break;
   }
 
-  newGrid[toggledGridSquare.index].isBlack =
-    !newGrid[toggledGridSquare.index].isBlack;
+  newGrid[toggledGridSquare.index].isBlack = isTogglingGridBlack;
   if (oppositeTile && oppositeTile.index !== toggledGridSquare.index) {
-    newGrid[oppositeTile.index].isBlack = !newGrid[oppositeTile.index].isBlack;
+    newGrid[oppositeTile.index].isBlack = isTogglingGridBlack;
   }
 
   return newGrid;

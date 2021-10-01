@@ -9,18 +9,20 @@ export interface GridSquare {
 
 interface CrosswordSquareProps {
   gridSquare: GridSquare;
-  onToggleBlack: (e: React.MouseEvent<HTMLInputElement>) => void;
+  onToggleBlackMouseDown: (e: React.MouseEvent<HTMLInputElement>) => void;
+  onToggleBlackMouseEnter: (e: React.MouseEvent<HTMLInputElement>) => void;
 }
 const CrosswordSquare: React.FunctionComponent<CrosswordSquareProps> = ({
   gridSquare,
-  onToggleBlack,
+  onToggleBlackMouseDown,
+  onToggleBlackMouseEnter,
 }) => {
   const backgroundColor = gridSquare.isBlack ? "#444444" : "white";
 
   return (
     <div
-      onMouseDown={onToggleBlack}
-      onMouseEnter={onToggleBlack}
+      onMouseDown={onToggleBlackMouseDown}
+      onMouseEnter={onToggleBlackMouseEnter}
       style={{
         height: 25,
         width: 25,

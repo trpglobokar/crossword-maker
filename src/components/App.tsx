@@ -18,6 +18,7 @@ const App: React.FunctionComponent = () => {
     createNewCrosswordGrid(15)
   );
   const [gridPattern, setGridPattern] = React.useState("basic");
+  const [isTogglingGridBlack, setIsTogglingGridBlack] = React.useState(true);
 
   const handleGridSizeFormSubmit = (evt: any) => {
     evt.preventDefault();
@@ -27,20 +28,44 @@ const App: React.FunctionComponent = () => {
     setGridSize(tempGridSize);
   };
 
-  const handleToggleGridSquareBlack = (
+  const handleSetIsTogglingGridBlack = (
     e: React.MouseEvent<HTMLInputElement>,
     toggledGridSquare: GridSquare
   ) => {
+    setIsTogglingGridBlack(!toggledGridSquare.isBlack);
+    console.log(
+      "handleSetIsTogglingGridBlack - !toggledGridSquare.isBlack",
+      !toggledGridSquare.isBlack
+    );
+    handleToggleGridSquareBlack(
+      e,
+      toggledGridSquare,
+      !toggledGridSquare.isBlack
+    );
+  };
+
+  const handleToggleGridSquareBlack = (
+    e: React.MouseEvent<HTMLInputElement>,
+    toggledGridSquare: GridSquare,
+    isTogglingGridBlack: boolean
+  ) => {
+    e.stopPropagation();
+    console.log("e.buttons", e.buttons);
     if (e.buttons !== 1 && e.buttons !== 3) {
       return;
     }
+
+    console.log("handleToggleGridSquareBlack", isTogglingGridBlack);
 
     const newGrid = updateCrosswordGridWithToggledBlack(
       grid,
       gridSize,
       gridPattern,
+      isTogglingGridBlack,
       toggledGridSquare
     );
+
+    console.log("newGrid", newGrid);
 
     setGrid(newGrid);
   };
@@ -57,10 +82,14 @@ const App: React.FunctionComponent = () => {
       <CrosswordGrid
         grid={grid}
         gridSize={gridSize}
+        onSetBlack={(
+          e: React.MouseEvent<HTMLInputElement>,
+          gridSquare: GridSquare
+        ) => handleSetIsTogglingGridBlack(e, gridSquare)}
         onToggleBlack={(
           e: React.MouseEvent<HTMLInputElement>,
           gridSquare: GridSquare
-        ) => handleToggleGridSquareBlack(e, gridSquare)}
+        ) => handleToggleGridSquareBlack(e, gridSquare, isTogglingGridBlack)}
       />
       <br />
       <GridPatternSelector
