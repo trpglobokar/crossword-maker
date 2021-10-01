@@ -1,6 +1,11 @@
 import "./App.css";
 import * as React from "react";
 
+import {
+  createNewCrosswordGrid,
+  updateCrosswordGridWithToggledBlack,
+} from "../utils/utils";
+
 import CrosswordGrid from "./CrosswordGrid";
 import { GridSquare } from "./CrosswordSquare";
 import GridSizeForm from "./GridSizeForm";
@@ -13,17 +18,7 @@ const App: React.FunctionComponent = () => {
   const handleGridSizeFormSubmit = (evt: any) => {
     evt.preventDefault();
 
-    let newGrid: GridSquare[] = [];
-
-    newGrid = [...Array(tempGridSize * tempGridSize)].map(
-      (_value: any, index: number) => {
-        const columnIndex = index % tempGridSize;
-        const rowIndex = Math.floor(index / tempGridSize);
-
-        return { columnIndex, rowIndex, index, isBlack: false };
-      }
-    );
-
+    const newGrid = createNewCrosswordGrid(tempGridSize);
     setGrid(newGrid);
     setGridSize(tempGridSize);
   };
@@ -36,19 +31,11 @@ const App: React.FunctionComponent = () => {
       return;
     }
 
-    let newGrid = [...grid];
-    const oppositeTile = newGrid.find(
-      (gridSquare) =>
-        gridSquare.rowIndex === toggledGridSquare.rowIndex &&
-        gridSquare.columnIndex + toggledGridSquare.columnIndex === gridSize - 1
+    const newGrid = updateCrosswordGridWithToggledBlack(
+      grid,
+      gridSize,
+      toggledGridSquare
     );
-
-    newGrid[toggledGridSquare.index].isBlack =
-      !newGrid[toggledGridSquare.index].isBlack;
-    if (oppositeTile && oppositeTile.index !== toggledGridSquare.index) {
-      newGrid[oppositeTile.index].isBlack =
-        !newGrid[oppositeTile.index].isBlack;
-    }
 
     setGrid(newGrid);
   };

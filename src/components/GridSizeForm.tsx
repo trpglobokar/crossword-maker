@@ -1,12 +1,5 @@
 import * as React from "react";
 
-export interface GridSquare {
-  index: number;
-  columnIndex: number;
-  rowIndex: number;
-  isBlack: boolean;
-}
-
 interface CrosswordSquareProps {
   tempGridSize: number;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
